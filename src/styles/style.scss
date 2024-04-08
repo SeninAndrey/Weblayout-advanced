@@ -80,11 +80,15 @@
 		flex-direction: row;
 		justify-content: space-between;
 		flex-direction: row;
-		/* width: 100%; */
 		list-style-type: none;
 		font: $fontTTFirstRegular;
+		opacity: 1;
 	}
 
+	&__container {
+		opacity: 1;
+		height: auto;
+	}
 
 	&__link {
 		transition: all .2s ease-in-out;
@@ -130,7 +134,7 @@
 	width: 100%;
 
 	&__form {
-		display: none;
+		display: flex;
 		flex-direction: row;
 	}
 
@@ -193,8 +197,8 @@
 }
 
 .close-icon {
-	width: 23px;
-	height: 23px;
+	width: 20px;
+	height: 20px;
 	transition: all .2s  ease-in-out;
 }
 
@@ -278,12 +282,15 @@
 .work {
 	&__img {
 		width: 100%;
-		// height: 100%;
 		object-fit: cover;
 	}
 }
 
 /* ABOUT */
+
+#about {
+	scroll-behavior: smooth;
+}
 
 .about {
 	background-color: $colorBlack;
@@ -468,7 +475,6 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		/* justify-content: space-between; */
 		padding: 22px 30px 30px;
 		color: $colorWhite;
 	}
@@ -560,7 +566,6 @@
 	height: 30px;
 }
 
-
 .contacts {
 	padding-bottom: 69px;
 
@@ -620,17 +625,12 @@
 		bottom: 0;
 		right: 51.8%;
 		display: flex;
-		// display: none;
 		justify-content: center;
 		flex-direction: column;
 		padding: 60px;
 		background-color: $colorBlack;
 		z-index: 1;
 		opacity: 85%;
-
-		&--show {
-			display: flex;
-		}
 	}
 
 	&__header {
@@ -825,7 +825,6 @@
 
 	.container {
 		max-width: 1024px;
-		/* padding: 0 31px; */
 		padding-left: 31px;
 		padding-right: 31px;
 	}
@@ -888,7 +887,6 @@
 		}
 	}
 
-
 	/* ABOUT  */
 
 	.about {
@@ -922,7 +920,6 @@
 	.card {
 		min-height: 285px;
 		padding-top: 90%;
-
 	}
 
 	.projects {
@@ -1065,7 +1062,6 @@
 
 		&__main {
 			background-image: url(../images/hero-768.webp);
-			/* background-size: cover; */
 		}
 
 		&__title {
@@ -1089,8 +1085,7 @@
 
 		&__form {
 			background-image: url(../images/camera-768.webp);
-			background-size: 100%;
-			// background-position-y: 40%;
+			background-size: auto 74%;
 		}
 	}
 
@@ -1267,7 +1262,7 @@
 
 	.nav {
 		&__container {
-			display: none;
+			display: flex;
 			flex-direction: column;
 			position: fixed;
 			align-items: flex-start;
@@ -1275,15 +1270,13 @@
 			bottom: 0;
 			right: 0;
 			left: 0;
-			padding: 13px 18px 36px;
+			padding: 13px 18px 86px;
 			background-color: $colorBlack;
 			width: 100vw;
-			height: calc(100vh - 71px);
+			height: 0;
+			pointer-events: none;
+			opacity: 0;
 			z-index: 3;
-
-			&--show {
-				display: flex;
-			}
 		}
 
 		&__list {
@@ -1298,6 +1291,10 @@
 			display: block;
 			margin-top: auto;
 			margin-bottom: 0;
+
+			& a {
+				color: $colorButton;
+			}
 		}
 
 		&__menu-btn {
@@ -1315,7 +1312,6 @@
 		padding-top: 30px;
 		padding-bottom: 50px;
 		flex-direction: column;
-
 
 		&__hashtag {
 			top: 6px;

@@ -44,48 +44,84 @@ function init() {
     myMap.geoObjects.add(myPlacemark);
 }
 
+// reload page, when device orientation changes
+
+if (window.DeviceOrientationEvent) {
+    window.addEventListener('orientationchange', function() {
+		location.reload();
+	}, false);
+}
+
+// page loading animation
+
+const pageLoading = gsap.timeline();
+
+if (window.screen.width > 900) {
+	pageLoading
+		.from('.main__description', {duration: 0.5, opacity: 0, y: 100}, "group1")
+		.from('.main__title', {duration: 0.5, opacity: 0, y: 150}, "group1")
+		.from('.main__date', {duration: 0.5, opacity: 0, y: 150}, "group1")
+		.from('.hero__work1', {duration: 0.4, opacity: 0, scale: 0.8})
+		.from('.hero__work2', {duration: 0.4, opacity: 0, scale: 0.8}, "group2")
+		.from('.hero__work3', {duration: 0.4, opacity: 0, scale: 0.8}, "group2")
+		.from('.hero__title', {duration: 1, opacity: 0});
+}
+
 // search block
 
 const openButton = document.querySelector('.search__btn');
-const searchForm = document.querySelector('.search__form');
 const closeSearchButton = document.querySelector('.search__close');
-const logo = document.querySelector('.header__logo');
-const searchBlock = document.querySelector('.search');
 
-function searchFormControl() {
-	openButton.classList.toggle('hide');
-	searchForm.classList.toggle('search__form--show');
+const searchAnimation = gsap.timeline({paused: true});
+const searchAnimationMobile = gsap.timeline({paused: true});
 
-	if (window.screen.width <= 600 ) {
-		logo.classList.toggle('hide');
-		searchBlock.classList.toggle('search--mobile');
-	}
+if (window.screen.width <= 600) {
+	searchAnimation
+		.to('.header__logo', {duration: 0, display: "none"}, "firstPhase")
+		.to('.search', {duration: 0, gridColumn: "1 / span 2"}, "firstPhase")
+		.to('.search__btn', {duration: 0, opacity: 0, display: "none"}, "firstPhase")
+		.from('.search__form', {duration: .5, y: 30, display: "none"});
+} else {
+	searchAnimation
+		.to('.search__btn', {duration: 0, opacity: 0, display: "none"})
+		.from('.search__form', {duration: .5, y: 30, display: "none"});
 }
 
-openButton.addEventListener('click', searchFormControl);
-closeSearchButton.addEventListener('click', searchFormControl);
+openButton.onclick = () => searchAnimation.play();
+closeSearchButton.onclick = () => searchAnimation.reverse();
 
 // burger-menu
 
-const body = document.querySelector('body');
 const burgerButton = document.querySelector('.nav__menu-btn');
-const navContainer = document.querySelector('.nav__container');
 const closeBurgerButton = document.querySelector('.nav__close');
 const navItems = document.querySelectorAll('.nav__item');
+const phoneIcon = document.querySelector('.phone-img');
 
-burgerButton.addEventListener('click', function () {
-	navContainer.classList.add('nav__container--show');
-	body.classList.add('noscroll');
-})
+const phoneIconAnimation = gsap.timeline({paused: true});
+phoneIconAnimation.from('.phone-img', {rotate: 20, scale: 1.1, ease: "elastic.in(2,0.2)", repeat: -1, repeatDelay: 2});
 
-function closeBurger () {
-	navContainer.classList.remove('nav__container--show');
-	body.classList.remove('noscroll');
+const burgerAnimation = gsap.timeline({paused: true});
+const burgerCloseIfScroll = gsap.timeline({paused: true});
+
+if (window.screen.width <= 600) {
+	burgerAnimation
+		.to('.nav__menu-btn', {duration: 0, opacity: 0}, "firstPhase")
+		.to('body', {duration: 0, overflow: "hidden"}, "firstPhase")
+		.to('.nav__container', {duration: .3, height: "calc(100vh - 71px)", opacity: 1, pointerEvents: "inherit"})
+		.from('.nav__list', {duration: .3, opacity: 0});
 }
 
-closeBurgerButton.addEventListener('click', closeBurger);
-navItems.forEach(item => {
-	item.addEventListener('click', closeBurger);
+burgerButton.onclick = () => {
+	burgerAnimation.play();
+	phoneIconAnimation.play();
+}
+closeBurgerButton.onclick = () => {
+	burgerAnimation.reverse();
+	phoneIconAnimation.pause();
+}
+navItems.forEach(item => item.onclick =() => {
+	burgerAnimation.reverse();
+	phoneIconAnimation.pause();
 });
 
 // contacts
@@ -93,26 +129,30 @@ navItems.forEach(item => {
 const contactsOpenButton = document.querySelector('.contacts__open');
 const contactsCloseButton = document.querySelector('.contacts__close');
 
-const contacts = gsap.timeline({paused: true});
+const contactsAnimation = gsap.timeline({paused: true});
 
 if (window.screen.width > 1100) {
-	contacts
+	contactsAnimation
 		.to('.contacts__hidden', {duration: .3, right: "51.8%", zIndex: 0}, "firstPhase")
 		.to('.contacts__open', {duration: .1, opacity: 0}, "firstPhase")
 		.to('.contacts__hidden', {duration: .3, ease: "power1.in", opacity: 0}, "secondPhase")
 		.from('.contacts__main', {duration: .3, ease: "power1.out", opacity: 0}, "secondPhase");
 } else {
-	contacts
+	contactsAnimation
 		.to('.contacts__hidden', {duration: .3, top: "66%", zIndex: 0}, "firstPhase")
 		.to('.contacts__open', {duration: .1, opacity: 0}, "firstPhase")
 		.to('.contacts__hidden', {duration: .3, ease: "power1.in", opacity: 0}, "secondPhase")
 		.from('.contacts__main', {duration: .3, ease: "power1.out", opacity: 0}, "secondPhase");
 }
 
-contactsOpenButton.onclick = () => contacts.play();
-
-contactsCloseButton.onclick = () => contacts.reverse();
-
+contactsOpenButton.onclick = () => {
+	contactsAnimation.play();
+	phoneIconAnimation.play();
+}
+contactsCloseButton.onclick = () => {
+	contactsAnimation.reverse();
+	phoneIconAnimation.pause();
+}
 
 
 

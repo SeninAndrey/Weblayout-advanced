@@ -1,5 +1,9 @@
 @import '_variables.scss';
 
+body {
+	scroll-behavior: smooth;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -32,13 +36,13 @@ button {
 	transition: all 0.2s ease-in-out;
 }
 
-.hide {
-	display: none;
-}
+// .hide {
+// 	display: none;
+// }
 
-.noscroll {
-	overflow: hidden;
-}
+// .noscroll {
+// 	overflow: hidden;
+// }
 
 .container {
 	max-width: 1400px;
